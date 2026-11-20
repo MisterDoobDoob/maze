@@ -4,9 +4,9 @@
 
 const DEVICE_LABEL = /dualsense|wireless controller/i;
 
-const ROLL_BASE_HZ = 35;
-const ROLL_SPEED_HZ = 45; // extra pitch at full speed
-const ROLL_SMOOTHING = 0.06; // seconds
+const ROLL_BASE_HZ = 0;
+const ROLL_SPEED_HZ = 0; // extra pitch at full speed
+const ROLL_SMOOTHING = 0.00; // seconds
 const BUMP_HZ = 110;
 const BUMP_DECAY = 0.07; // seconds
 const BUMP_GAIN = 1;

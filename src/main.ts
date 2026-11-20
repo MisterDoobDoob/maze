@@ -8,7 +8,7 @@ import { buildLevel, disposeLevel, HOLE_RADIUS, type Level } from './level';
 // Controller config
 const PITCH_SIGN = -1;
 const ROLL_SIGN = 1;
-const MAX_TILT = THREE.MathUtils.degToRad(20);
+const MAX_TILT = THREE.MathUtils.degToRad(45);
 
 const TRAY_SIZE = 10;
 const GRID = 6;
@@ -29,6 +29,7 @@ const CAMERA_BACK = 10;
 const BUMP_MIN_SPEED = 0.5; // ignore resting contact against a wall
 const BUMP_FULL_SPEED = 6;
 const BUMP_DECAY = 18; // per second
+const ROLL_HAPTICS = false; // continuous rolling vibration; bumps are unaffected
 const ROLL_MIN_SPEED = 0.2;
 const ROLL_FULL_SPEED = 6;
 const ROLL_MAX = 0.35; // intensity at ROLL_FULL_SPEED
@@ -135,9 +136,9 @@ function land() {
 // --- Secret ----------------------------------------------------------------
 
 const CODE_AFTER_MAZES = 3;
-// Stored reversed + base64 so it isn't sitting in the source as plain text.
-const SECRET = 'MjYtVElCUk8=';
-const GLYPHS = '▓▒░█◆◇○●△▽□■⌬⟁ΣΞΨΩ#%&@*+=?';
+// v v basic, stored reversed + base64 so it isn't sitting in the source as plain text.
+const SECRET = 'codehere=';
+const GLYPHS = '▓▒░█◆◇□■⌬⟁ΣΞΨ#*+?';
 
 function revealCode() {
   const code = [...atob(SECRET)].reverse().join('');
@@ -148,8 +149,8 @@ function revealCode() {
 
   // Each character cycles through noise, then locks in left to right.
   const t0 = performance.now();
-  const LOCK_START = 900;
-  const LOCK_STEP = 220;
+  const LOCK_START = 300;
+  const LOCK_STEP = 80;
   const scramble = () => {
     const t = performance.now() - t0;
     let out = '';
@@ -167,11 +168,14 @@ function revealCode() {
   };
   scramble();
 
-  const dismiss = () => {
-    overlay.classList.remove('show');
-    setTimeout(() => (overlay.hidden = true), 600);
-  };
-  overlay.addEventListener('click', dismiss, { once: true });
+  overlay.addEventListener(
+    'click',
+    () => {
+      overlay.classList.remove('show'); // also drops pointer-events at once
+      setTimeout(() => (overlay.hidden = true), 600);
+    },
+    { once: true },
+  );
 }
 
 // --- Input -----------------------------------------------------------------
@@ -319,7 +323,7 @@ function addBump(strength: number) {
 }
 
 function updateHaptics(dt: number) {
-  const speed = mode === 'rolling' ? ballVel.length() : 0;
+  const speed = ROLL_HAPTICS && mode === 'rolling' ? ballVel.length() : 0;
   const target = speed < ROLL_MIN_SPEED ? 0 : Math.min(speed / ROLL_FULL_SPEED, 1);
   if (hd) {
     hd.setRoll(rollIntensity(target), target);

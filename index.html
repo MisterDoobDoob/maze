@@ -11,13 +11,14 @@
       button:hover { background: #262a35; }
       #status { font-size: 14px; opacity: 0.85; }
       #debug { font: 12px ui-monospace, monospace; white-space: pre; opacity: 0.7; }
-      #secret { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
-        background: radial-gradient(ellipse at center, rgba(14,15,19,0.55), rgba(14,15,19,0.92)); opacity: 0; transition: opacity 0.6s ease; cursor: pointer; text-align: center; padding: 16px; }
-      #secret.show { opacity: 1; }
+      #secret[hidden] { display: none; }
+      #secret { position: fixed; inset: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+        background: radial-gradient(ellipse at center, rgba(14,15,19,0.55), rgba(14,15,19,0.92)); opacity: 0; pointer-events: none;
+        transition: opacity 0.6s ease; cursor: pointer; text-align: center; padding: 16px; }
+      #secret.show { opacity: 1; pointer-events: auto; }
       #secret .whisper { font: 13px ui-monospace, monospace; letter-spacing: 0.35em; text-transform: uppercase; opacity: 0.55; }
-      #secret .code { font: 600 clamp(36px, 9vw, 84px) ui-monospace, monospace; letter-spacing: 0.18em; color: #7fdcff;
-        text-shadow: 0 0 18px rgba(127,220,255,0.45); transition: color 0.4s, text-shadow 0.4s; }
-      #secret .code.locked { color: #f2f6ff; text-shadow: 0 0 28px rgba(127,220,255,0.8), 0 0 4px #7fdcff; }
+      #secret .code { font: 600 clamp(36px, 9vw, 84px) ui-monospace, monospace; letter-spacing: 0.18em; color: #7fdcff; transition: color 0.4s; }
+      #secret .code.locked { color: #f2f6ff; }
       #secret .hint { font-size: 12px; opacity: 0.35; }
     </style>
   </head>
@@ -32,9 +33,9 @@
       <div id="debug"></div>
     </div>
     <div id="secret" hidden>
-      <div class="whisper">three falls · one signal</div>
+      <div class="whisper">What goes around, comes around</div>
       <div class="code"></div>
-      <div class="whisper">what circles, returns</div>
+      <div class="whisper">Enter in telegram</div>
       <div class="hint">click to continue</div>
     </div>
     <script type="module" src="/src/main.ts"></script>
