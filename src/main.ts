@@ -137,7 +137,7 @@ function land() {
 
 const CODE_AFTER_MAZES = 3;
 // v v basic, stored reversed + base64 so it isn't sitting in the source as plain text.
-const SECRET = 'codehere=';
+const SECRET = 'ZXJlaGVkb2M=';
 const GLYPHS = '▓▒░█◆◇□■⌬⟁ΣΞΨ#*+?';
 
 function revealCode() {
